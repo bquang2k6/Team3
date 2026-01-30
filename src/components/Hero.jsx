@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 const Hero = () => {
     return (
         <section className="relative px-4 lg:px-40 py-20 lg:py-32 overflow-hidden">
-            <div className="hero-gradient absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[800px] pointer-events-none"></div>
             <div className="max-w-[1200px] mx-auto grid lg:grid-cols-2 gap-16 items-center">
                 <div className="relative z-10">
                     <h1 className="text-5xl lg:text-7xl font-black leading-tight tracking-tight text-slate-900 dark:text-white mb-6">
-                        Build <span className="text-gradient">The</span> Future.
+                        Team <span className="text-gradient">3</span>.
                     </h1>
                     <p className="text-lg text-slate-600 dark:text-white/60 leading-relaxed mb-8 max-w-xl">
                         Connecting students to global hackathons and AI-powered teammate matching. Join the elite network of student innovators and turn ideas into reality.

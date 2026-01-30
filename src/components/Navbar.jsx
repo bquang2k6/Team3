@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = ({ isExpanded, onToggle }) => {
+    const navRef = React.useRef(null);
     const [isDark, setIsDark] = React.useState(() => {
         if (typeof window !== 'undefined') {
             const savedTheme = localStorage.getItem('theme');
@@ -23,16 +24,33 @@ const Navbar = ({ isExpanded, onToggle }) => {
         }
     }, [isDark]);
 
+    // Handle click outside to close navbar
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isExpanded && navRef.current && !navRef.current.contains(event.target)) {
+                onToggle(); // Close if open and clicked outside
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isExpanded, onToggle]);
+
     const toggleTheme = () => {
         setIsDark(!isDark);
     };
 
     return (
-        <nav className={`fixed right-0 top-0 h-screen py-8 z-50 flex flex-col items-center justify-between border-l border-slate-200 dark:border-white/10 glass-effect bg-white/80 dark:bg-white/5 backdrop-blur-md transition-all duration-300 ${isExpanded ? 'w-64' : 'w-0 md:w-20'} overflow-visible`}>
+        <nav
+            ref={navRef}
+            className={`fixed right-0 top-0 h-screen py-8 z-50 flex flex-col items-center justify-between border-l border-slate-200 dark:border-white/10 bg-white/90 dark:bg-[#1a1025]/80 backdrop-blur-md shadow-2xl dark:shadow-none transition-all duration-300 ${isExpanded ? 'w-64' : 'w-0 md:w-20'} overflow-visible`}
+        >
             {/* Toggle Button */}
             <button
                 onClick={onToggle}
-                className={`absolute top-8 left-0 -translate-x-1/2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 p-1 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm hover:scale-110 transition-transform z-50 ${!isExpanded ? 'md:flex' : ''}`}
+                className={`absolute top-8 -right-5 -translate-x-1/2 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 p-1 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm hover:scale-110 transition-transform z-50 ${!isExpanded ? 'md:flex' : ''}`}
             >
                 <span className="material-symbols-outlined text-sm">
                     {isExpanded ? 'chevron_right' : 'chevron_left'}
@@ -70,16 +88,24 @@ const Navbar = ({ isExpanded, onToggle }) => {
 
                 {/* Bottom Actions */}
                 <div className="flex flex-col items-center gap-6 w-full px-4">
-                    <button
-                        onClick={toggleTheme}
-                        className={`p-2 rounded-xl hover:bg-white/10 transition-colors text-slate-600 dark:text-slate-300 flex items-center gap-3 ${isExpanded ? 'w-full justify-start px-4' : ''}`}
-                        title="Toggle Theme"
-                    >
-                        <span className="material-symbols-outlined max-w-[240] shrink-0">
-                            {isDark ? 'light_mode' : 'dark_mode'}
-                        </span>
-                        {isExpanded && <span className="font-medium whitespace-nowrap overflow-hidden animate-fade-in">Theme</span>}
-                    </button>
+                    {/* Theme Toggle Switch */}
+                    <div className={`flex items-center ${isExpanded ? 'w-full justify-between' : 'justify-center'} px-2 transition-all`}>
+                        {isExpanded && <span className="text-slate-600 dark:text-slate-300 font-medium whitespace-nowrap">Dark Mode</span>}
+
+                        <button
+                            onClick={toggleTheme}
+                            className={`relative w-12 h-6 rounded-full transition-colors duration-300 focus:outline-none ${isDark ? 'bg-primary' : 'bg-slate-300'}`}
+                            title="Toggle Theme"
+                        >
+                            <div
+                                className={`absolute top-1 left-1 bg-white rounded-full w-4 h-4 shadow-md transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-6' : 'translate-x-0'}`}
+                            >
+                                <span className="material-symbols-outlined text-[10px] text-slate-800">
+                                    {isDark ? 'dark_mode' : 'light_mode'}
+                                </span>
+                            </div>
+                        </button>
+                    </div>
 
                     <div className={`rounded-full border border-white/10 overflow-hidden cursor-pointer hover:ring-2 hover:ring-primary transition-all shrink-0 ${isExpanded ? 'size-12' : 'size-10'}`}>
                         <img
@@ -105,9 +131,9 @@ const Navbar = ({ isExpanded, onToggle }) => {
 const NavIcon = ({ icon, label, isExpanded }) => (
     <a
         href="#"
-        className={`group relative flex items-center rounded-xl hover:bg-white/10 transition-colors ${isExpanded ? 'w-full px-4 py-3 gap-3 justify-start' : 'justify-center w-10 h-10 mx-auto'}`}
+        className={`group relative flex items-center rounded-xl hover:bg-slate-100 dark:hover:bg-white/10 transition-colors ${isExpanded ? 'w-full px-4 py-3 gap-3 justify-start' : 'justify-center w-10 h-10 mx-auto'}`}
     >
-        <span className="material-symbols-outlined text-slate-600 dark:text-slate-300 group-hover:text-primary transition-colors shrink-0">
+        <span className="material-symbols-outlined text-slate-500 dark:text-slate-400 group-hover:text-primary dark:group-hover:text-white transition-colors shrink-0">
             {icon}
         </span>
         {isExpanded ? (

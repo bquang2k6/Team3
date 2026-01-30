@@ -20,13 +20,13 @@ const Footer = () => {
                         <a className="text-slate-400 hover:text-primary dark:text-white/40 dark:hover:text-white transition-colors" href="#"><span className="material-symbols-outlined">alternate_email</span></a>
                     </div>
                 </div>
-                <div>
+                {/* <div>
                     <h4 className="text-slate-900 dark:text-white font-bold mb-6">Cộng Đồng</h4>
                     <ul className="space-y-4">
                         <li><a className="text-slate-600 hover:text-primary dark:text-white/40 dark:hover:text-primary text-sm transition-colors" href="#">Page facebook</a></li>
                         <li><a className="text-slate-600 hover:text-primary dark:text-white/40 dark:hover:text-primary text-sm transition-colors" href="#">Github</a></li>
                     </ul>
-                </div>
+                </div> */}
             </div>
             <div className="mt-5 -mb-16 pt-8 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p className="text-slate-500 dark:text-white/20 text-xs">© 2026 IT-ZONE TEAM 3. All rights reserved.</p>
